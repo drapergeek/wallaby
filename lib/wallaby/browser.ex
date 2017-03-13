@@ -964,9 +964,12 @@ defmodule Wallaby.Browser do
   end
 
   def set_cookie(%Session{}=session, key, value) do
-    {:ok, _list} = Driver.set_cookies(session, key, value)
-
-    session
+    case Driver.set_cookies(session, key, value) do
+      {:ok, _list} ->
+	session
+      {:error, :invalid_cookie_domain} ->
+	raise Wallaby.CookieException
+    end
   end
 
   defp validate_html(parent, %{html_validation: :button_type}=query) do

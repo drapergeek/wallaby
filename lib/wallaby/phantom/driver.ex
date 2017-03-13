@@ -107,7 +107,7 @@ defmodule Wallaby.Phantom.Driver do
   end
 
   @doc """
-  Gets the title of the current page.
+  Gets the title of the current page.
   """
   def page_title(session) do
     check_logs! session, fn ->
@@ -404,6 +404,8 @@ defmodule Wallaby.Phantom.Driver do
         {:error, :stale_reference_error}
       %{"class" => "org.openqa.selenium.InvalidSelectorException"} ->
         {:error, :invalid_selector}
+      %{"class" => "org.openqa.selenium.InvalidCookieDomainException"} ->
+	{:error, :invalid_cookie_domain}
       _ ->
         {:ok, response}
     end

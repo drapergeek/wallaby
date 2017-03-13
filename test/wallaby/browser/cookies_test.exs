@@ -24,5 +24,12 @@ defmodule Wallaby.Browser.CookiesTest do
       assert cookie["name"] == "api_token"
       assert cookie["value"] == "abc123"
     end
+
+    test "without visiting a page first throws an error", %{session: session} do
+      assert_raise Wallaby.CookieException, fn ->
+	session
+	|> Browser.set_cookie("some_cookie", "test")
+      end
+    end
   end
 end
